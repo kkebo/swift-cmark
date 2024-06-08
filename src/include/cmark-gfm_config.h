@@ -22,14 +22,16 @@ extern "C" {
 #  if __has_include(<unistd.h>)
 #    define HAVE_UNISTD_H
 #  endif
-#elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__)
+#elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) || defined(__wasi__)
   // Apple Clang does not define any of the unix symbols, even though it provides unistd.h
 #  define HAVE_UNISTD_H
 #endif
 
 #define HAVE___BUILTIN_EXPECT
 
-#define CMARK_THREADING
+#ifndef __wasi__
+  #define CMARK_THREADING
+#endif
 
 #ifndef CMARK_INLINE
   #if defined(_MSC_VER) && !defined(__cplusplus)
